@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.10)
+project(Qps30Test)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_FLAGS "-O3 -march=native -fcoroutines")
+
+include_directories(/tmp/folly)
+
+add_executable(qps_30_test qps_30_test.cpp)
+
+target_link_libraries(qps_30_test
+    /tmp/folly/_build/libfolly.a
+    fmt glog gflags double-conversion pthread dl
+    event ssl crypto sodium lzma z snappy lz4 zstd unwind atomic
+    boost_context boost_filesystem boost_program_options boost_regex boost_system boost_thread
+)
