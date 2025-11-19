@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.10)
+project(FollySimpleBench)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "-O3 -march=native")
+
+include_directories(/tmp/folly)
+
+add_executable(folly_simple_bench folly_coro_simple.cpp)
+
+target_link_libraries(folly_simple_bench
+    /tmp/folly/_build/libfolly.a
+    fmt glog gflags double-conversion pthread dl
+    event ssl crypto sodium lzma z snappy lz4 zstd unwind atomic
+    boost_context boost_filesystem boost_program_options boost_regex boost_system boost_thread
+)
