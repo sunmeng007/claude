@@ -1,0 +1,48 @@
+=== Folly 实际编译标志 ===
+
+配置命令:
+  cmake .. -DCMAKE_CXX_FLAGS="-O2 -DNDEBUG" -DCMAKE_BUILD_TYPE=Release
+
+实际使用的 CXX_FLAGS:
+  -O2 -DNDEBUG
+  -O3 -DNDEBUG
+  -g
+  -Wall -Wextra
+  -O3
+  -std=gnu++20
+  -fcoroutines
+  -g
+  -finput-charset=UTF-8
+  -fsigned-char
+  -Wall
+  -Wno-deprecated
+  -Wno-deprecated-declarations
+  -Wno-sign-compare
+  -Wno-unused
+  -Wuninitialized
+  -Wunused-label
+  -Wunused-result
+  -Wno-psabi
+  -Wshadow-compatible-local
+  -Wno-noexcept-type
+  -faligned-new
+  -fopenmp
+
+关键检查：
+  ✅ 没有 -march=native
+  ✅ 没有 -mavx2
+  ✅ 没有 -msse4.2
+  ✅ 没有 -mfma
+  ✅ 没有 -mavx512f
+
+这是通用 x86_64 编译，不针对特定 CPU 优化。
+
+为什么 F14 慢？
+  1. F14 的 SIMD 优化（14-way probing）需要 SSE2/AVX2
+  2. 没有 -march=native 就没有 SIMD 指令
+  3. F14 回退到慢速的标量代码
+  4. 小数据（25元素）开销 > 收益
+
+测试结果（25元素）：
+  std::unordered_map:  0.00ms  (基准)
+  F14FastMap:          0.00ms  慢 160%  ❌
