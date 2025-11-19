@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.10)
+project(F14Benchmark)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 设置编译选项（不使用 -march=native）
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+
+# 添加 Folly 的 include 目录
+include_directories(/tmp/folly)
+
+# 添加可执行文件
+add_executable(f14_benchmark f14_simple_benchmark.cpp)
+
+# 链接 Folly 静态库
+target_link_libraries(f14_benchmark
+    /tmp/folly/_build/libfolly.a
+    fmt
+    glog
+    gflags
+    double-conversion
+    pthread
+    dl
+    event
+    ssl
+    crypto
+    sodium
+    lzma
+    z
+    snappy
+    lz4
+    zstd
+    unwind
+    atomic
+)
