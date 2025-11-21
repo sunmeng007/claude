@@ -1,0 +1,38 @@
+# 编译输出目录
+build/
+bin/
+obj/
+
+# CMake 生成的文件
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Protobuf 生成的文件
+*.pb.cc
+*.pb.h
+
+# C++ 编译产物
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# 测试结果文件
+benchmark_results.txt
+test_results.xml
+*.json
+
+# IDE 和编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 临时文件
+*.tmp
+*.log
