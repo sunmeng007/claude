@@ -68,5 +68,18 @@ if(GTest_FOUND)
     install(TARGETS param_test DESTINATION bin)
 endif()
 
+# 创建原始 Param 性能测试可执行文件（用于对比）
+add_executable(param_original_benchmark
+    param_original_benchmark.cpp
+)
+
+target_link_libraries(param_original_benchmark
+    benchmark::benchmark
+)
+
+target_include_directories(param_original_benchmark PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 # 安装目标
-install(TARGETS param_benchmark DESTINATION bin)
+install(TARGETS param_benchmark param_original_benchmark DESTINATION bin)
