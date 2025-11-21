@@ -1,0 +1,182 @@
+syntax = "proto3";
+
+package param_pb;
+
+// Element 基础元素
+message Element {
+  string k = 1;
+  double v = 2;
+}
+
+// Element_v2
+message ElementV2 {
+  string nid = 1;
+  string cat = 2;
+  string tag = 3;
+  string topic = 4;
+  string media = 5;
+  int64 v = 6;
+}
+
+// Element_v3
+message ElementV3 {
+  string nid = 1;
+  string cat = 2;
+  repeated string tags = 3;
+  repeated string topics = 4;
+  string media = 5;
+  int64 v = 6;
+}
+
+// Element_v4
+message ElementV4 {
+  double a = 1;  // count
+  double b = 2;  // clk_time
+}
+
+// Element_v5
+message ElementV5 {
+  string k = 1;
+  int32 v = 2;
+  string sv = 3;
+}
+
+// Element_v6
+message ElementV6 {
+  string k = 1;
+  double v = 2;
+  int32 p = 3;
+}
+
+// Element_v7
+message ElementV7 {
+  string nid = 1;
+  string channel_id = 2;
+  int64 token = 3;
+  string cfr = 4;
+  int32 news_type = 5;
+  int32 pos = 6;
+}
+
+// Element_v8
+message ElementV8 {
+  repeated string k = 1;
+}
+
+// ElementSeqItem
+message ElementSeqItem {
+  string nid = 1;
+  int64 click_time = 2;
+  string session_id = 3;
+  string news_style = 4;
+  double read_time = 5;
+  string category = 6;
+}
+
+// SessionMess
+message SessionMess {
+  map<string, double> cat_click = 1;
+  map<string, double> cat_recom = 2;
+  map<string, double> topic_click = 3;
+  map<string, double> topic_recom = 4;
+  map<string, double> tag_click = 5;
+  map<string, double> tag_recom = 6;
+  map<string, double> media_click = 7;
+  map<string, double> media_recom = 8;
+  map<string, double> recall_click = 9;
+  map<string, double> recall_recom = 10;
+  int64 v = 11;
+}
+
+// MapMapValue - 用于嵌套 map
+message MapMapValue {
+  repeated ElementV4Pair pairs = 1;
+}
+
+message ElementV4Pair {
+  string key = 1;
+  ElementV4 value = 2;
+}
+
+// Param 主消息
+message Param {
+  enum Form {
+    UNDEFINE = 0;
+    MAP = 1;
+    STR = 2;
+    LIST = 3;
+    LIST_V2 = 4;
+    LIST_V3 = 5;
+    LIST_V5 = 6;
+    SESSION_MESS_LIST = 7;
+    MAP_MAP = 8;
+    MAP_LIST = 9;
+    LIST_V7 = 10;
+    LIST_V8 = 11;
+    LIST_SEQ_ITEM = 12;
+  }
+
+  Form form = 1;
+
+  // 不同形式的数据，使用 oneof 可以节省内存
+  oneof data {
+    string str_data = 2;
+    MapData map_data = 3;
+    ListData list_data = 4;
+    ListV2Data list_v2_data = 5;
+    ListV3Data list_v3_data = 6;
+    ListV5Data list_v5_data = 7;
+    SessionMessListData session_mess_list_data = 8;
+    MapMapData map_map_data = 9;
+    MapListData map_list_data = 10;
+    ListV7Data list_v7_data = 11;
+    ListV8Data list_v8_data = 12;
+    ListSeqItemData list_seq_item_data = 13;
+  }
+}
+
+// 辅助数据类型
+message MapData {
+  map<string, double> map = 1;
+}
+
+message ListData {
+  repeated Element list = 1;
+}
+
+message ListV2Data {
+  repeated ElementV2 list = 1;
+}
+
+message ListV3Data {
+  repeated ElementV3 list = 1;
+}
+
+message ListV5Data {
+  repeated ElementV5 list = 1;
+}
+
+message SessionMessListData {
+  repeated SessionMess list = 1;
+}
+
+message MapMapData {
+  map<string, MapMapValue> map_map = 1;
+}
+
+message MapListData {
+  map<string, ElementV6> map = 1;
+  repeated ElementV6 list = 2;
+}
+
+message ListV7Data {
+  repeated ElementV7 list = 1;
+}
+
+message ListV8Data {
+  repeated ElementV8 list = 1;
+}
+
+message ListSeqItemData {
+  repeated ElementSeqItem list = 1;
+}
